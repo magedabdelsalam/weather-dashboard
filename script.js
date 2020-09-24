@@ -16,7 +16,7 @@ function displaySearchHistory(){
             $("#searchHistory").append(cityNameHistoryEl);
         }
     }
-    $("#searchHistory li").first().attr("style","background:#343a40; color:#ffffff;");
+    $("#searchHistory li").first().attr("style","background:#17a2b8; color:#ffffff;");
 }
 
 // display city weather
@@ -106,7 +106,7 @@ function displayCityWeather(citySearch){
             var forecastList = response.list
             $("#cityForecast").empty();
             for(var i=0;i < 5;i++){
-                var forecastEl = $("<div class='cityForecastDay col-lg text-white bg-dark p-4 mr-lg-3 my-2 card'>");
+                var forecastEl = $("<div class='cityForecastDay col-lg text-white bg-info p-4 mr-lg-3 my-2 card'>");
                 $("#cityForecast").append(forecastEl);
                 var forecastDateEl = $("<h3 id='cityForcastDate'>")
                 forecastDate.setDate(forecastDate.getDate() + 1)
@@ -139,7 +139,7 @@ displayCityWeather($("#searchHistory li").first().text());
 // Update search history with new searched city, save it to local storage, and show it's weather data
 $("#searchBtn").submit(function(event){
     event.preventDefault();
-    citySearch = $("#searchCity").val().trim();
+    citySearch = String($("#searchCity").val().trim().charAt(0).toUpperCase() + $("#searchCity").val().trim().slice(1));
     if(!citySearch){
         return;
     } else {
@@ -157,7 +157,7 @@ $("#searchBtn").submit(function(event){
 $("#searchHistory").on("click", ".cityHistory", function(event){
     event.preventDefault();
     console.log($(this).text());
-    $(".cityHistory").attr("style","background:transparent; color:#343a40;");
-    $(this).attr("style","background:#343a40; color:#ffffff;");
+    $(".cityHistory").attr("style","background:transparent; color:#212529;");
+    $(this).attr("style","background:#17a2b8; color:#ffffff;");
     displayCityWeather($(this).text());
 });

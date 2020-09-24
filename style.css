@@ -1,11 +1,15 @@
+.cityHistory:hover{
+    background: #17a2b8;
+    color: #ffffff; 
+    cursor: pointer;
+}
+.list-group-item{
+    padding: 0.8333rem 1.25rem;
+}
+
 img{
     width:100px;
 }
 .alert{
     width: fit-content !important;
-}
-.cityHistory:hover{
-    background: #343a40;
-    color: #ffffff; 
-    cursor: pointer;
 }
