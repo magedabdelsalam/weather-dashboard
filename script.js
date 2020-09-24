@@ -10,9 +10,11 @@ function displaySearchHistory(){
         cities = storedCities;
     }
     for(var i=0;i<cities.length;i++){
-        var cityNameHistoryEl = $("<li class='cityHistory list-group-item'>");
-        cityNameHistoryEl.text(cities[i]);
-        $("#searchHistory").append(cityNameHistoryEl);
+        if(i<5){
+            var cityNameHistoryEl = $("<li class='cityHistory list-group-item'>");
+            cityNameHistoryEl.text(cities[i]);
+            $("#searchHistory").append(cityNameHistoryEl);
+        }
     }
     $("#searchHistory li").first().attr("style","background:#343a40; color:#ffffff;");
 }

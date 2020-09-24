@@ -13,20 +13,22 @@
 				<div class="col-lg-4">
 					<div class="row my-2 no-gutters">
 						<div class="col-lg">
-							<h1>Weather Forecast</h1>
+							<h2>Weather Forecast</h2>
 						</div>
 					</div>
-					<div class="row my-4 no-gutters">
+					<div class="row no-gutters" style="margin:1.125em 0;">
 						<div class="col-lg">
 							<form class="form-inline input-group" id="searchBtn">
-								<input class="form-control form-control-lg" id="searchCity" type="text" placeholder="Search city" />  
-								<button class="btn btn-lg btn-dark ml-2" type="submit">Search</button>
+								<input class="form-control form-control-lg" id="searchCity" type="text" placeholder="Search city" />
+								<div class="input-group-append">
+									<button class="btn btn-lg btn-dark" type="submit">Search</button>
+								</div>
 							</form>
 						</div>
 					</div>
 					<div class="row my-4 no-gutters">
 						<div class="col-lg">
-							<h5>Search History</h5>
+							<h4>Search History</h4>
 							<ul class="list-group ml-0" id="searchHistory">
 							</ul>
 						</div>
@@ -34,7 +36,7 @@
 				</div>
 				<div class="col-lg">
 					<div class="row my-2 no-gutters">
-						<h2 id="cityName"></h2>
+						<h1 id="cityName"></h1>
 					</div>
 					<div class="row my-2 no-gutters">
 						<div id="cityWeather" class="col-lg card text-white bg-dark p-4">
@@ -50,14 +52,14 @@
 			</header>
 			<section class="row my-4">
 				<div class="col-lg">
-					<h3>5-DAY FORECAST</h3>
+					<h3>5-Day Forecast</h3>
 					<div class="row no-gutters" id="cityForecast">
 					</div>
 				</div>
 			</section>
 			<footer class="row my-4">
 				<div class="col-lg">
-					<h5>Made by Maged Abdelsalam</h5>
+					<h5 id="credits">Made by Maged Abdelsalam</h5>
 				</div>
 			</footer>
 		</article>
