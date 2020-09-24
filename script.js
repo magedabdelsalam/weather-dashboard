@@ -24,7 +24,6 @@ function displayCityWeather(citySearch){
     var cityQueryURL =
     "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&units=imperial&apikey=" + apiKey;
     console.log(citySearch);
-    console.log(cityQueryURL);
 
     $.ajax({
     url: cityQueryURL,
@@ -59,7 +58,6 @@ function displayCityWeather(citySearch){
 
         var uvQueryURL =
         "https://api.openweathermap.org/data/2.5/uvi?lat=" + cityLat + "&lon=" + cityLon + "&appid=" + apiKey;
-        console.log(uvQueryURL);
     
         $.ajax({
         url: uvQueryURL,
@@ -91,7 +89,6 @@ function displayCityWeather(citySearch){
     
         var forecastQueryUrl =
         "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + apiKey;
-        console.log(forecastQueryUrl);
     
         $.ajax({
         url: forecastQueryUrl,
