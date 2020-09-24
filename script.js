@@ -55,7 +55,7 @@ function displayCityWeather(citySearch){
         console.log(cityLon);
 
         var uvQueryURL =
-        "http://api.openweathermap.org/data/2.5/uvi?lat=" + cityLat + "&lon=" + cityLon + "&appid=" + apiKey;
+        "https://api.openweathermap.org/data/2.5/uvi?lat=" + cityLat + "&lon=" + cityLon + "&appid=" + apiKey;
         console.log(uvQueryURL);
     
         $.ajax({
@@ -79,14 +79,14 @@ function displayCityWeather(citySearch){
         });
     
         $("#cityName").text(cityName + " - " + cityDate.toString().substr(0, 15) + " ");
-        $("#cityCondition").attr("src","http://openweathermap.org/img/wn/" + cityCondition + "@2x.png");
+        $("#cityCondition").attr("src","https://openweathermap.org/img/wn/" + cityCondition + "@2x.png");
         $("#cityCondition").attr("alt",response.weather[0].description);
         $("#cityTemp").text("Temp: " + cityTemp + " °F");
         $("#cityWind").text("Wind Speed: " + cityWind + " MPH");
         $("#cityHum").text("Humiditiy: " + cityHum + "%");
     
         var forecastQueryUrl =
-        "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + apiKey;
+        "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + apiKey;
         console.log(forecastQueryUrl);
     
         $.ajax({
@@ -110,7 +110,7 @@ function displayCityWeather(citySearch){
                 forecastEl.append(forecastDateEl);
     
                 var forecastConditionEl = $("<img>");
-                forecastConditionEl.attr("src","http://openweathermap.org/img/wn/" + forecastList[i].weather[0].icon + "@2x.png");
+                forecastConditionEl.attr("src","https://openweathermap.org/img/wn/" + forecastList[i].weather[0].icon + "@2x.png");
                 forecastConditionEl.attr("alt",forecastList[i].weather[0].description);
                 forecastEl.append(forecastConditionEl);
             
