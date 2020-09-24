@@ -69,9 +69,9 @@ function displayCityWeather(citySearch){
             var cityUv = response.value;
             console.log(cityUv);
             var cityUvEl = $("#cityUv").text("UV Index: " + cityUv);
-            if (cityUv <= 2){
+            if (cityUv <= 3){
                 cityUvEl.attr("class","alert alert-success");
-            } else if (cityUv <= 5){
+            } else if (cityUv <= 6){
                 cityUvEl.attr("class","alert alert-warning");
             } else {
                 cityUvEl.attr("class","alert alert-danger");
