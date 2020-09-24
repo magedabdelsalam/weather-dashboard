@@ -1,5 +1,5 @@
 // define global variables
-var cities = [];
+var cities = ["Cairo"];
 var storedCities = JSON.parse(localStorage.getItem("cities"))
 var apiKey = "caccde44d5d35cb32c1e548278843b75";
 
@@ -14,6 +14,7 @@ function displaySearchHistory(){
         cityNameHistoryEl.text(cities[i]);
         $("#searchHistory").append(cityNameHistoryEl);
     }
+    $("#searchHistory li").first().attr("style","background:#343a40; color:#ffffff;");
 }
 
 // display city weather
@@ -78,7 +79,8 @@ function displayCityWeather(citySearch){
     
         });
     
-        $("#cityName").text(cityName + " - " + cityDate.toString().substr(0, 15) + " ");
+        $("#cityName").text(cityName);
+        $("#cityDate").text(cityDate.toString().substr(0, 15) + " ");
         $("#cityCondition").attr("src","https://openweathermap.org/img/wn/" + cityCondition + "@2x.png");
         $("#cityCondition").attr("alt",response.weather[0].description);
         $("#cityTemp").text("Temp: " + cityTemp + " °F");
@@ -130,7 +132,7 @@ function displayCityWeather(citySearch){
 };
 
 displaySearchHistory();
-displayCityWeather("Cairo");
+displayCityWeather($("#searchHistory li").first().text());
 
 // Update search history with new searched city, save it to local storage, and show it's weather data
 $("#searchBtn").submit(function(event){
