@@ -1,0 +1,11 @@
+img{
+    width:100px;
+}
+.alert{
+    width: fit-content !important;
+}
+.cityHistory:hover{
+    background: #343a40;
+    color: #ffffff; 
+    cursor: pointer;
+}
