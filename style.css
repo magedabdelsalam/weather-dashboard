@@ -6,6 +6,9 @@
 .list-group-item{
     padding: 0.8333rem 1.25rem;
 }
+.cityForecastDay:last-of-type {
+    margin-right:0 !important;
+}
 
 img{
     width:100px;
