@@ -3,7 +3,6 @@ $(document).ready(function () {
     var cities = ["Cairo"];
     var storedCities = JSON.parse(localStorage.getItem("cities"));
     var apiKey = "caccde44d5d35cb32c1e548278843b75";
-
     // Call submitted city api and display it's weather, uv index, and forecast
     $("#searchForm").submit(function(event){
         event.preventDefault();
@@ -15,7 +14,7 @@ $(document).ready(function () {
             $("#searchCity").attr("style","background: none;");
             $("#searchCity").attr("placeholder","Search city");
             cityApiCall(citySearch);
-        }, 1000);
+        }, 300);
     });
 
     // Call selected city api and display it's weather, uv index, and forecast
@@ -97,6 +96,21 @@ $(document).ready(function () {
 
             uvApiCall(cityLat,cityLon);
             forecastApiCall(cityName);
+
+            $("#mapid").remove();
+            var cityMapEl = $("<div id='mapid'>");
+            $("#cityMap").append(cityMapEl);
+            var cityMap = L.map('mapid').setView([cityLat, cityLon], 13);
+            console.log(cityMap);
+
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> | Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox/streets-v11',
+                tileSize: 512,
+                zoomOffset: -1,
+                accessToken: 'pk.eyJ1IjoiZGFnYWRlZ28iLCJhIjoiY2lvbjFyNGh3MDA2bnRybTQycHZ1b3JhciJ9.xAZRQIVTJjMLT0lcogOFbg'
+            }).addTo(cityMap);
         });
     };
 
