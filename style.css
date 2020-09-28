@@ -1,17 +1,17 @@
 .cityHistory:hover{
-    background: #17a2b8;
-    color: #ffffff; 
+    background: #6c757d;
+    color: #ffffff;
     cursor: pointer;
 }
 .list-group-item{
-    padding: 0.8333rem 1.25rem;
+    padding: 0.972rem 1.25rem;
 }
 .cityForecastDay:last-of-type {
     margin-right:0 !important;
 }
 
 img{
-    width:100px;
+    width:120px;
 }
 .alert{
     width: fit-content !important;

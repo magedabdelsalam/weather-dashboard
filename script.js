@@ -1,22 +1,21 @@
 $(document).ready(function () {
 
     var cities = ["Cairo"];
-    var storedCities = JSON.parse(localStorage.getItem("cities"))
+    var storedCities = JSON.parse(localStorage.getItem("cities"));
     var apiKey = "caccde44d5d35cb32c1e548278843b75";
 
     // Call submitted city api and display it's weather, uv index, and forecast
     $("#searchForm").submit(function(event){
         event.preventDefault();
-        citySearch = String($("#searchCity").val().trim().charAt(0).toUpperCase() + $("#searchCity").val().trim().slice(1));
-        cityApiCall(citySearch);
-        if(citySearch){
-            cities.unshift(citySearch);
-            var storeCities = localStorage.setItem("cities",JSON.stringify(cities));
-            console.log("Added city");
-            displaySearchHistory(cities);
-        }
-        $("#searchHistory li").first().attr("style","background:#17a2b8; color:#fff;");
+        citySearch = String($("#searchCity").val().trim());
         $("#searchCity").val("");
+        $("#searchCity").attr("placeholder","");
+        $("#searchCity").attr("style","background: url(assets/load.gif) no-repeat 16px 8px; background-size: 30px");
+        setTimeout(function(){ 
+            $("#searchCity").attr("style","background: none;");
+            $("#searchCity").attr("placeholder","Search city");
+            cityApiCall(citySearch);
+        }, 1000);
     });
 
     // Call selected city api and display it's weather, uv index, and forecast
@@ -24,7 +23,7 @@ $(document).ready(function () {
         event.preventDefault();
         console.log($(this).text());
         $(".cityHistory").attr("style","background:transparent; color:#212529;");
-        $(this).attr("style","background:#17a2b8; color:#ffffff;");
+        $(this).addClass("text-light bg-secondary");
         cityApiCall($(this).text());
     });
 
@@ -42,12 +41,22 @@ $(document).ready(function () {
 
             var cityName = response.name;
             console.log(cityName);
+
+            var cityCountry = response.sys.country;
         
             var cityDate =  new Date();  
             console.log(cityDate);
         
             var cityCondition = response.weather[0].icon;
             console.log(cityCondition);
+
+            if (cityCondition.includes("d")){
+                $("#cityWeather").removeClass("text-light bg-secondary");
+                $("#cityWeather").addClass("text-secondary bg-light");
+            } else if (cityCondition.includes("n")){
+                $("#cityWeather").removeClass("text-secondary bg-light");
+                $("#cityWeather").addClass("text-light bg-secondary");
+            }
         
             var cityTemp = response.main.temp;
             console.log(cityTemp);
@@ -63,8 +72,22 @@ $(document).ready(function () {
         
             var cityLon = response.coord.lon;
             console.log(cityLon);
+
+            // Add to array if it's not already included. If it is, reposition to top of array.
+            if(!cities.includes(cityName)){
+                cities.unshift(cityName);
+                if(cities.length > 5){
+                    cities.pop();
+                };
+                var storeCities = localStorage.setItem("cities",JSON.stringify(cities));
+                displaySearchHistory(cities);
+                $("#searchHistory li").first().addClass("text-light bg-secondary");
+            } else if (cities.includes(cityName)){
+                displaySearchHistory(cities);
+                $("#"+cityName).addClass("text-light bg-secondary");
+            };
         
-            $("#cityName").text(cityName);
+            $("#cityName").text(cityName + ", " + cityCountry);
             $("#cityDate").text(cityDate.toString().substr(0, 15) + " ");
             $("#cityCondition").attr("src","https://openweathermap.org/img/wn/" + cityCondition + "@2x.png");
             $("#cityCondition").attr("alt",response.weather[0].description);
@@ -120,8 +143,15 @@ $(document).ready(function () {
             var forecastList = response.list
             $("#cityForecast").empty();
             for(var i=0;i < 5;i++){
-                var forecastEl = $("<div class='cityForecastDay col-lg text-white bg-info p-4 mr-lg-3 my-2 card'>");
+                var forecastEl = $("<div class='cityForecastDay col-lg p-4 mr-lg-3 my-2 card'>");
                 $("#cityForecast").append(forecastEl);
+                
+                if (forecastList[i].sys.pod === "d"){
+                    forecastEl.addClass("text-secondary bg-light");
+                } else if (forecastList[i].sys.pod === "n"){
+                    forecastEl.addClass("text-light bg-secondary");
+                }
+
                 var forecastDateEl = $("<h3 id='cityForcastDate'>")
                 forecastDate.setDate(forecastDate.getDate() + 1)
                 forecastDateEl.text(forecastDate.toString().substr(0, 15));
@@ -149,11 +179,10 @@ $(document).ready(function () {
         $("#searchHistory").empty();
 
         for(var i=0;i<cities.length;i++){
-            if(i<5){
-                var cityNameHistoryEl = $("<li class='cityHistory list-group-item'>");
-                cityNameHistoryEl.text(cities[i]);
-                $("#searchHistory").append(cityNameHistoryEl);
-            }
+            var cityNameHistoryEl = $("<li class='cityHistory list-group-item'>");
+            cityNameHistoryEl.text(cities[i]);
+            cityNameHistoryEl.attr("id",cities[i]);
+            $("#searchHistory").append(cityNameHistoryEl);
         }
         
     }
@@ -164,7 +193,7 @@ $(document).ready(function () {
             cities = storedCities;
         }
         displaySearchHistory(cities);
-        $("#searchHistory li").first().attr("style","background:#17a2b8; color:#fff;");
+        $("#searchHistory li").first().addClass("text-light bg-secondary");
         cityApiCall($("#searchHistory li").first().text());
     }
 
