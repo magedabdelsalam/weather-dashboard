@@ -12,7 +12,6 @@ $(document).ready(function () {
         $("#searchCity").attr("style","background: url(assets/load.gif) no-repeat 16px 8px; background-size: 30px");
         setTimeout(function(){ 
             $("#searchCity").attr("style","background: none;");
-            $("#searchCity").attr("placeholder","Search city");
             cityApiCall(citySearch);
         }, 300);
     });
@@ -72,6 +71,8 @@ $(document).ready(function () {
             var cityLon = response.coord.lon;
             console.log(cityLon);
 
+            $("#searchCity").attr("placeholder","Search city");
+
             // Add to array if it's not already included. If it is, reposition to top of array.
             if(!cities.includes(cityName)){
                 cities.unshift(cityName);
@@ -118,6 +119,8 @@ $(document).ready(function () {
                 layer: 'wind_new',
                 appId: 'caccde44d5d35cb32c1e548278843b75'
             }).addTo(cityMap);
+        }).fail(function(){
+            $("#searchCity").attr("placeholder","Try again, city not found");
         });
     };
 
