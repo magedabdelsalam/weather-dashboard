@@ -100,16 +100,23 @@ $(document).ready(function () {
             $("#mapid").remove();
             var cityMapEl = $("<div id='mapid'>");
             $("#cityMap").append(cityMapEl);
-            var cityMap = L.map('mapid').setView([cityLat, cityLon], 13);
+            var cityMap = L.map('mapid').setView([cityLat, cityLon], 10);
             console.log(cityMap);
 
             L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                 attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> | Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                 maxZoom: 18,
-                id: 'mapbox/streets-v11',
+                minZoom: 1,
+                id: 'mapbox/light-v10',
                 tileSize: 512,
                 zoomOffset: -1,
                 accessToken: 'pk.eyJ1IjoiZGFnYWRlZ28iLCJhIjoiY2lvbjFyNGh3MDA2bnRybTQycHZ1b3JhciJ9.xAZRQIVTJjMLT0lcogOFbg'
+            }).addTo(cityMap);
+
+            L.tileLayer('https://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={appId}', {
+                attribution: '<a href="https://www.openweathermap.org/">OpenWeatherMap</a>',
+                layer: 'wind_new',
+                appId: 'caccde44d5d35cb32c1e548278843b75'
             }).addTo(cityMap);
         });
     };
