@@ -25,10 +25,25 @@ $(document).ready(function () {
         cityApiCall($(this).text());
     });
 
+    $("#degree").on("click", function() {
+        if ($(this).text() == $(this).data("text-swap")) {
+            $(this).text($(this).data("text-original"));
+            $(this).data("unit","°F");
+        } else {
+            $(this).data("text-original", $(this).text());
+            $(this).text($(this).data("text-swap"));
+            $(this).data("unit","°C");
+        }
+        initilizeSearchHistory();
+    });
+
     // Use searched city to call for its weather api and display it
     function cityApiCall(citySearch){
+        var degree = $("#degree").text();
+        var degreeUnit = $("#degree").data("unit");
+
         cityQueryURL =
-        "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&units=imperial&apikey=" + apiKey;
+        "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&units=" + degree + "&apikey=" + apiKey;
 
         $.ajax({
         url: cityQueryURL,
@@ -91,7 +106,7 @@ $(document).ready(function () {
             $("#cityDate").text(cityDate.toString().substr(0, 15) + " ");
             $("#cityCondition").attr("src","https://openweathermap.org/img/wn/" + cityCondition + "@2x.png");
             $("#cityCondition").attr("alt",response.weather[0].description);
-            $("#cityTemp").text("Temp: " + cityTemp + " °F");
+            $("#cityTemp").text("Temp: " + cityTemp + " " + degreeUnit);
             $("#cityWind").text("Wind Speed: " + cityWind + " MPH");
             $("#cityHum").text("Humiditiy: " + cityHum + "%");
 
@@ -151,8 +166,11 @@ $(document).ready(function () {
 
     // Use city name to call for its forecast api and display it
     function forecastApiCall(cityName){
+        var degree = $("#degree").text();
+        var degreeUnit = $("#degree").data("unit");
+
         var forecastQueryUrl =
-        "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + apiKey;
+        "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=" + degree + "&appid=" + apiKey;
 
         $.ajax({
         url: forecastQueryUrl,
@@ -187,7 +205,7 @@ $(document).ready(function () {
                 forecastEl.append(forecastConditionEl);
             
                 var forecastTempEl = $("<p id='cityForecastTemp'>");
-                forecastTempEl.text("Temp: " + forecastList[i].main.temp + " °F");
+                forecastTempEl.text("Temp: " + forecastList[i].main.temp + " " + degreeUnit);
                 forecastEl.append(forecastTempEl);
 
                 var forecastHumEl = $("<p id='cityForecastHum'>");
@@ -207,8 +225,7 @@ $(document).ready(function () {
             cityNameHistoryEl.text(cities[i]);
             cityNameHistoryEl.attr("id",cities[i]);
             $("#searchHistory").append(cityNameHistoryEl);
-        }
-        
+        } 
     }
 
     // Display stored search history
@@ -222,5 +239,4 @@ $(document).ready(function () {
     }
 
     initilizeSearchHistory();
-
 });
