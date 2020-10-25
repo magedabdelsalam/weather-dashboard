@@ -25,14 +25,16 @@ $(document).ready(function () {
         cityApiCall($(this).text());
     });
 
-    $("#degree").on("click", function() {
+    $("#unit").on("click", function() {
         if ($(this).text() == $(this).data("text-swap")) {
             $(this).text($(this).data("text-original"));
-            $(this).data("unit","°F");
+            $(this).data("temp","°F");
+            $(this).data("speed","MPH");
         } else {
             $(this).data("text-original", $(this).text());
             $(this).text($(this).data("text-swap"));
-            $(this).data("unit","°C");
+            $(this).data("temp","°C");
+            $(this).data("speed","KPH");
         }
         var citySearch = $(".cityHistory").filter(".bg-secondary").text();
         cityApiCall(citySearch);
@@ -40,11 +42,12 @@ $(document).ready(function () {
 
     // Use searched city to call for its weather api and display it
     function cityApiCall(citySearch){
-        var degree = $("#degree").text();
-        var degreeUnit = $("#degree").data("unit");
+        var unit = $("#unit").text();
+        var tempUnit = $("#unit").data("temp");
+        var speedUnit = $("#unit").data("speed");
 
         cityQueryURL =
-        "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&units=" + degree + "&apikey=" + apiKey;
+        "https://api.openweathermap.org/data/2.5/weather?q=" + citySearch + "&units=" + unit + "&apikey=" + apiKey;
 
         $.ajax({
         url: cityQueryURL,
@@ -58,7 +61,7 @@ $(document).ready(function () {
 
             var cityCountry = response.sys.country;
         
-            var cityDate =  new Date();  
+            var cityDate = new Date();  
             console.log(cityDate);
         
             var cityCondition = response.weather[0].icon;
@@ -104,11 +107,11 @@ $(document).ready(function () {
             };
         
             $("#cityName").text(cityName + ", " + cityCountry);
-            $("#cityDate").text(cityDate.toString().substr(0, 15) + " ");
+            $("#cityDate").text(cityDate.toString().substr(0, 11) + " ");
             $("#cityCondition").attr("src","https://openweathermap.org/img/wn/" + cityCondition + "@2x.png");
             $("#cityCondition").attr("alt",response.weather[0].description);
-            $("#cityTemp").text("Temp: " + cityTemp + " " + degreeUnit);
-            $("#cityWind").text("Wind Speed: " + cityWind + " MPH");
+            $("#cityTemp").text("Temp: " + cityTemp + " " + tempUnit);
+            $("#cityWind").text("Wind Speed: " + cityWind + " " + speedUnit);
             $("#cityHum").text("Humiditiy: " + cityHum + "%");
 
             uvApiCall(cityLat,cityLon);
@@ -167,11 +170,11 @@ $(document).ready(function () {
 
     // Use city name to call for its forecast api and display it
     function forecastApiCall(cityName){
-        var degree = $("#degree").text();
-        var degreeUnit = $("#degree").data("unit");
+        var unit = $("#unit").text();
+        var tempUnit = $("#unit").data("temp");
 
         var forecastQueryUrl =
-        "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=" + degree + "&appid=" + apiKey;
+        "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=" + unit + "&appid=" + apiKey;
 
         $.ajax({
         url: forecastQueryUrl,
@@ -197,7 +200,7 @@ $(document).ready(function () {
 
                 var forecastDateEl = $("<h3 id='cityForcastDate'>")
                 forecastDate.setDate(forecastDate.getDate() + 1)
-                forecastDateEl.text(forecastDate.toString().substr(0, 15));
+                forecastDateEl.text(forecastDate.toString().substr(0, 11));
                 forecastEl.append(forecastDateEl);
 
                 var forecastConditionEl = $("<img>");
@@ -206,7 +209,7 @@ $(document).ready(function () {
                 forecastEl.append(forecastConditionEl);
             
                 var forecastTempEl = $("<p id='cityForecastTemp'>");
-                forecastTempEl.text("Temp: " + forecastList[i].main.temp + " " + degreeUnit);
+                forecastTempEl.text("Temp: " + forecastList[i].main.temp + " " + tempUnit);
                 forecastEl.append(forecastTempEl);
 
                 var forecastHumEl = $("<p id='cityForecastHum'>");
@@ -218,9 +221,7 @@ $(document).ready(function () {
 
     // Display updated search history
     function displaySearchHistory(cities){
-
         $("#searchHistory").empty();
-
         for(var i=0;i<cities.length;i++){
             var cityNameHistoryEl = $("<li class='cityHistory list-group-item'>");
             cityNameHistoryEl.text(cities[i]);
@@ -235,8 +236,8 @@ $(document).ready(function () {
             cities = storedCities;
         }
         displaySearchHistory(cities);
-        $("#searchHistory li").first().addClass("text-light bg-secondary");
-        cityApiCall($("#searchHistory li").first().text());
+        $(".cityHistory").first().addClass("text-light bg-secondary");
+        cityApiCall($(".cityHistory").first().text());
     }
 
     initilizeSearchHistory();
