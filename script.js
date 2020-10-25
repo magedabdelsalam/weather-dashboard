@@ -34,7 +34,8 @@ $(document).ready(function () {
             $(this).text($(this).data("text-swap"));
             $(this).data("unit","°C");
         }
-        initilizeSearchHistory();
+        var citySearch = $(".cityHistory").filter(".bg-secondary").text();
+        cityApiCall(citySearch);
     });
 
     // Use searched city to call for its weather api and display it
